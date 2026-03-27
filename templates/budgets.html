@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+
+{% block title %}Budgets{% endblock %}
+
+{% block main %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="fw-bold">Budgets</h1>
+        <p class="text-muted mb-0">{{ current_month }} — Set spending limits per category</p>
+    </div>
+</div>
+
+<!-- Add Budget Form -->
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title"><i class="bi bi-plus-circle"></i> Set a Budget</h5>
+        <form method="post" class="row g-3 align-items-end">
+            <div class="col-md-5">
+                <label for="category" class="form-label">Category</label>
+                <select class="form-select" id="category" name="category" required>
+                    <option value="" disabled selected>Select category</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat }}">{{ cat }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="limit" class="form-label">Monthly Limit ($)</label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input type="number" class="form-control" id="limit" name="limit"
+                           step="0.01" min="1" placeholder="500.00" required>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-check-lg"></i> Set Budget
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Budget List -->
+{% if budgets %}
+<div class="row g-4">
+    {% for budget in budgets %}
+    <div class="col-md-6">
+        <div class="card budget-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h6 class="fw-bold mb-0">{{ budget.category }}</h6>
+                    <form method="post" action="/delete-budget/{{ budget.id }}" class="d-inline"
+                          onsubmit="return confirm('Remove this budget?')">
+                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Remove">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </form>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="{% if budget.percentage >= 90 %}text-danger fw-bold{% elif budget.percentage >= 70 %}text-warning{% else %}text-success{% endif %}">
+                        {{ budget.spent | usd }} spent
+                    </span>
+                    <span class="text-muted">{{ budget.monthly_limit | usd }} limit</span>
+                </div>
+                <div class="progress" style="height: 12px;">
+                    <div class="progress-bar {% if budget.percentage >= 90 %}bg-danger{% elif budget.percentage >= 70 %}bg-warning{% else %}bg-success{% endif %}"
+                         style="width: {{ budget.percentage }}%"
+                         role="progressbar">
+                        {{ budget.percentage }}%
+                    </div>
+                </div>
+                {% if budget.percentage >= 90 %}
+                <small class="text-danger mt-2 d-block"><i class="bi bi-exclamation-triangle"></i> Approaching limit!</small>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <i class="bi bi-piggy-bank"></i>
+    <h5>No budgets set</h5>
+    <p>Set monthly spending limits to stay on track.</p>
+</div>
+{% endif %}
+{% endblock %}

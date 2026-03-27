@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}Log In{% endblock %}
+
+{% block main %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <i class="bi bi-wallet2 auth-icon"></i>
+            <h2>BingSpendSync</h2>
+            <p class="text-muted">Track every dollar, own every decision.</p>
+        </div>
+        <form method="post">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" autofocus required>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 btn-lg">Log In</button>
+        </form>
+        <div class="auth-footer">
+            <p>Don't have an account? <a href="/register">Sign up</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
