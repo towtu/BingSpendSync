@@ -1,6 +1,6 @@
 # BingSpendSync
 
-#### Video Demo: <URL HERE>
+#### Video Demo: https://youtu.be/q3365pzoE3U
 
 #### Description:
 
