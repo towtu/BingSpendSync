@@ -50,7 +50,9 @@
         <div class="card chart-card">
             <div class="card-body">
                 <h5 class="card-title"><i class="bi bi-bar-chart"></i> Monthly Spending</h5>
-                <canvas id="monthlyChart" height="250"></canvas>
+                <div style="position: relative; height: 250px;">
+                    <canvas id="monthlyChart"></canvas>
+                </div>
             </div>
         </div>
     </div>
@@ -59,7 +61,9 @@
             <div class="card-body">
                 <h5 class="card-title"><i class="bi bi-pie-chart"></i> By Category</h5>
                 {% if category_totals %}
-                <canvas id="categoryChart" height="250"></canvas>
+                <div style="position: relative; height: 250px;">
+                    <canvas id="categoryChart"></canvas>
+                </div>
                 {% else %}
                 <div class="empty-state-small">
                     <i class="bi bi-inbox"></i>

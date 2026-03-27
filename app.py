@@ -1,4 +1,5 @@
 import os
+import sqlite3
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session, jsonify
 from flask_session import Session
@@ -17,6 +18,10 @@ app.jinja_env.filters["usd"] = usd
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+
+# Ensure database file exists before CS50 SQL connects
+if not os.path.exists("spendsync.db"):
+    open("spendsync.db", "w").close()
 
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///spendsync.db")
@@ -185,11 +190,8 @@ def register():
             username, generate_password_hash(password)
         )
 
-        # Log user in
-        session["user_id"] = user_id
-        session["username"] = username
-        flash("Registered successfully! Welcome to BingSpendSync.", "success")
-        return redirect("/")
+        flash("Registered successfully! Please log in.", "success")
+        return redirect("/login")
 
     return render_template("register.html")
 
